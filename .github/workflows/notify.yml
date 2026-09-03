@@ -1,0 +1,47 @@
+name: notify
+
+on:
+  schedule:
+    - cron: "3 * * * *" # every hour; the script decides if it's a slot hour
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Send now regardless of schedule"
+        type: boolean
+        default: false
+
+concurrency:
+  group: notify
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm install --omit=dev --no-audit --no-fund
+
+      - name: Send
+        env:
+          VAPID_PUBLIC_KEY: ${{ secrets.VAPID_PUBLIC_KEY }}
+          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+          VAPID_SUBJECT: ${{ secrets.VAPID_SUBJECT }}
+        run: node scripts/notify.mjs ${{ (github.event_name == 'workflow_dispatch' && inputs.force) && '--force' || '' }}
+
+      - name: Persist state
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git config user.name "present-bot"
+            git config user.email "present-bot@users.noreply.github.com"
+            git add -A
+            git commit -m "state: slot sent"
+            git push
+          fi
