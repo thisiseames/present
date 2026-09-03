@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Present</title>
+    <meta name="description" content="Now is the only place you've ever been." />
+
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <meta name="theme-color" content="#0e0e0f" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Present" />
+    <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
+    <link rel="icon" href="./icons/icon.svg" type="image/svg+xml" />
+
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main id="stage">
+      <p id="piece" aria-live="polite"></p>
+    </main>
+
+    <button id="enable" type="button" hidden>Turn on notifications</button>
+
+    <div id="handoff" hidden>
+      <div class="sheet">
+        <p class="sheet-title">One more step, once.</p>
+        <p class="sheet-body">
+          Add this device to <code>subscriptions.json</code> in your repo. Paste the line below
+          into the array, commit, done. You never do this again on this device.
+        </p>
+        <textarea id="handoff-json" readonly rows="4"></textarea>
+        <div class="sheet-actions">
+          <button id="handoff-copy" type="button">Copy</button>
+          <button id="handoff-close" type="button" class="ghost">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

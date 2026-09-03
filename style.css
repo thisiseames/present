@@ -1,0 +1,165 @@
+:root {
+  --bg: #0e0e0f;
+  --ink: #ede8df;
+  --ink-dim: rgba(237, 232, 223, 0.62);
+  --ink-faint: rgba(237, 232, 223, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: ui-serif, "New York", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow: hidden;
+}
+
+#stage {
+  height: 100%;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(max(7vh, env(safe-area-inset-top)) + 2vh) 8vw
+    calc(max(7vh, env(safe-area-inset-bottom)) + 4vh);
+}
+
+#piece {
+  max-width: 30rem;
+  text-align: center;
+  font-size: clamp(1.45rem, 1rem + 2.6vw, 2.15rem);
+  line-height: 1.46;
+  letter-spacing: -0.01em;
+  font-weight: 400;
+  text-wrap: balance;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+#piece.in {
+  opacity: 1;
+  transform: none;
+}
+
+#enable {
+  position: fixed;
+  left: 50%;
+  bottom: calc(max(3vh, env(safe-area-inset-bottom)) + 1.4vh);
+  transform: translateX(-50%);
+  background: none;
+  border: 0;
+  color: var(--ink-dim);
+  font-family: ui-sans-serif, -apple-system, system-ui, sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.01em;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  text-underline-offset: 3px;
+  text-decoration: underline;
+  text-decoration-color: var(--ink-faint);
+  transition: color 0.3s ease, text-decoration-color 0.3s ease;
+}
+
+#enable:hover {
+  color: var(--ink);
+  text-decoration-color: var(--ink-dim);
+}
+
+#handoff {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6vw;
+}
+
+#handoff[hidden],
+#enable[hidden] {
+  display: none;
+}
+
+.sheet {
+  max-width: 26rem;
+  width: 100%;
+  background: #1a1a1b;
+  border: 1px solid rgba(237, 232, 223, 0.12);
+  border-radius: 16px;
+  padding: 1.5rem;
+  font-family: ui-sans-serif, -apple-system, system-ui, sans-serif;
+}
+
+.sheet-title {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.sheet-body {
+  font-size: 0.875rem;
+  color: var(--ink-dim);
+  line-height: 1.5;
+  margin-bottom: 0.9rem;
+}
+
+.sheet-body code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8em;
+  color: var(--ink);
+}
+
+#handoff-json {
+  width: 100%;
+  background: #0e0e0f;
+  border: 1px solid rgba(237, 232, 223, 0.14);
+  border-radius: 8px;
+  color: var(--ink-dim);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  padding: 0.6rem;
+  resize: none;
+}
+
+.sheet-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+}
+
+.sheet-actions button {
+  flex: 1;
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.55rem;
+  border-radius: 8px;
+  border: 1px solid rgba(237, 232, 223, 0.18);
+  background: var(--ink);
+  color: var(--bg);
+  cursor: pointer;
+}
+
+.sheet-actions .ghost {
+  background: none;
+  color: var(--ink-dim);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #piece {
+    transition: opacity 0.2s ease;
+    transform: none;
+  }
+}
